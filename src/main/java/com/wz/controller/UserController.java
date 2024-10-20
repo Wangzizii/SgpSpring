@@ -6,6 +6,7 @@ import com.wz.pojo.User;
 import com.wz.service.UserService;
 import com.wz.service.impl.AuthenticatorServiceimpl;
 import com.wz.utils.JWTUtil;
+import com.wz.utils.UUIDUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,42 @@ public class UserController {
         User u=userService.findbyUsername(username);
         userService.resendactivate(u.getId(),u.getEmail());
      return Result.success("Success");
+    }
+
+    @PostMapping("/forget")
+    public Result forget(String username){
+        User u=userService.findbyUsername(username);
+        if(u!=null&&u.isActive()){
+            userService.forgetpassword(u.getId(),u.getEmail());
+
+            return Result.success("Please check email");
+        }
+        else {
+            return Result.error("Username is not exist");
+        }
+    }
+
+    @PostMapping("/forget/{token}")
+    public Result forgetpassword(@PathVariable String token){
+        User u=userService.findbyActivationToken(token);
+        if(u!=null&&u.isActive()){
+            return Result.success("Reset your password");
+        }
+        return  Result.error("Token is not exist");
+
+    }
+    @PostMapping("/forget/reset")
+    public Result forgetreset(String token,@Pattern(regexp = "^\\S{5,16}$") String password){
+        User u=userService.findbyActivationToken(token);
+        if(u!=null&&u.isActive()){
+
+            userService.resetpassword(u.getId(),password);
+            return Result.success("Success Reset your password");
+
+
+        }
+        return  Result.error("Please enter by your email link");
+
     }
 
     @PostMapping("/login")
@@ -133,7 +170,7 @@ public class UserController {
     @GetMapping("/active/{token}")
     public Result userActive(@PathVariable String token){
         User u =userService.findbyActivationToken(token);
-        if(u!=null&&u.getActivationToken().equals(token)){
+        if(u!=null&&u.getActivationToken().equals(token)&&!u.isActive()){
             Date now = new Date();
             if(u.getActivation_expiry().after(now)){
                 userService.active(u.getId());

@@ -13,4 +13,8 @@ public interface UserService {
 
     void active(int id);
 
+    void forgetpassword(int id,String email);
+
+    void  resetpassword(int id,String password);
+
 }

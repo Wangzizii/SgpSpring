@@ -26,8 +26,13 @@ public interface UserMapper {
 
         @Update("UPDATE user SET  activationToken = #{activationToken}, activation_expiry = #{activation_expiry} WHERE id = #{id}")
     void reactivation(int id,String activationToken,Date activation_expiry);
+
         @Update("UPDATE user SET  secret=#{secret} WHERE username = #{username}")
     void setSecret(String username,String secret);
+
         @Update("UPDATE user SET  enable_authenticator=true WHERE username = #{username}")
     void setAuthenticator(String username);
+
+        @Update("UPDATE  user SET  activationToken = null, activation_expiry = null,password=#{password} WHERE id=#{id}")
+    void resetpassword(int id,String password);
 }
