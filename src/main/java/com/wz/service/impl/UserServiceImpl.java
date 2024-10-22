@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public void forgetpassword(int id,String email) {
         String activationToken = UUIDUtil.getUUID();
         Date expiryTime = UUIDUtil.calculateExpiryTime(15);
-        String resetLink= "http://13.229.104.127/auth/forget/" + activationToken;
+        String resetLink= "http://13.229.104.127/auth/forgot/" + activationToken;
 
         String activecontent="<a href="+resetLink+">Click me to reset your password</a>";
         mailService.sendMail(email,"Reset your password",activecontent);
