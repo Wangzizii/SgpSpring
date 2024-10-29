@@ -9,4 +9,8 @@ public interface TodolistService {
 
      void addTodo(int user_id,String title,String content);
 
+     void deleteTodo(int id);
+
+     void updateTodo(List<Todolist> todolist);
+
 }

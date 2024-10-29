@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-//统一响应结果
 public class Result<T>  {
     private int code;
     private String msg;
@@ -21,7 +20,7 @@ public class Result<T>  {
     public static  <E>Result<E> error(int code,String msg,E data) {
         return new Result<E>(code, msg, data);
     }
-    public static  Result<String> error(String msg) {
-        return new Result<String>(500, msg, null);
+    public static <E> Result<E> error(String msg) {
+        return new Result<E>(500, msg, null);
     }
 }

@@ -4,6 +4,7 @@ import com.wz.pojo.Todolist;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -14,6 +15,9 @@ public interface TodoMapper {
 
     @Insert("INSERT INTO todolist (user_id,title,content,status,create_time) values (#{user_id},#{title},#{content},0,now())")
     void addTodo(int user_id,String title,String content);
+
+    @Update("UPDATE todolist set status=1 WHERE id =#{todo}")
+    void upDatetodo(int todo);
 
 
 }

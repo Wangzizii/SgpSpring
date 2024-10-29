@@ -15,8 +15,8 @@ public class User {
     private String nickname;//昵称
     private String email;//邮箱
     private String userPic;//用户头像地址
-    private LocalDateTime createTime;//创建时间
-    private LocalDateTime updateTime;//更新时间
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
     private Date activation_expiry;
     private String activationToken;
     private boolean active;

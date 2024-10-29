@@ -5,11 +5,11 @@ import com.wz.pojo.Todolist;
 import com.wz.pojo.User;
 import com.wz.service.TodolistService;
 import com.wz.service.UserService;
+import com.wz.utils.JWTUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,7 +37,9 @@ public class TodolistController {
 
     }
     @PostMapping("/add")
-    public Result addTodo(String username,String title,String content){
+    public Result addTodo(String title, String content, HttpServletRequest request){
+        String username=JWTUtil.verifyToken(request.getHeader("Authorization")).get("username").toString();
+        System.out.println(username);
         User user = userService.findbyUsername(username);
         try {
             todolistService.addTodo(user.getId(),title,content);
@@ -47,6 +49,17 @@ public class TodolistController {
             return Result.error("");
         }
 
+    }
+    @PostMapping("/update")
+    public Result updateTodo(@RequestBody List<Todolist> updatelist){
+        try {
+            todolistService.updateTodo(updatelist);
+            return  Result.success("Update Success");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("Failed");
+        }
     }
 
 

@@ -17,7 +17,8 @@ public class MailController {
     private MailService mailService;
 
     @PostMapping("/send")
-    public Result sendMail(@RequestParam("to") String to,@RequestParam("subject")  String subject,@RequestParam("content")  String content) {
+    public Result sendMail(@RequestParam("to") String to,@RequestParam("subject")  String subject,@RequestParam("content")
+    String content) {
         try {
             System.out.println(to);
             mailService.sendMail(to, subject, content);
@@ -37,7 +38,8 @@ public class MailController {
             Integer  uid=user.getId();
             String serverUrl="localhost:8080";
             String key = RandomUtil.randomString(10);
-            String content = String.format("点击此链接进行激活： <a href=\"%s/user/activate?uid=%d&key=%s\">点我激活</a>", serverUrl, uid, key);
+            String content = String.format("点击此链接进行激活： <a href=\"%s/user/activate?uid=%d&key=%s\">点我激活</a>",
+                    serverUrl, uid, key);
             mailService.sendMail(to, "验证", content);
 
             return Result.success("发送成功");

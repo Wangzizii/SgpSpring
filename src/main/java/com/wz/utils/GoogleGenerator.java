@@ -42,13 +42,6 @@ public class GoogleGenerator {
         }
     }
 
-    /**
-     * 生成二维码所需的字符串，注：这个format不可修改，否则会导致身份验证器无法识别二维码
-     *
-     * @param user   绑定到的用户名
-     * @param secret 对应的secretKey
-     * @return 二维码字符串
-     */
     public static String getQRBarcode(String user, String secret) {
         if (ISSUER != null) {
             if (ISSUER.contains(":")) {
@@ -64,13 +57,6 @@ public class GoogleGenerator {
         return ret;
     }
 
-    /**
-     * 验证用户提交的code是否匹配
-     *
-     * @param secret 用户绑定的secretKey
-     * @param code   用户输入的code
-     * @return 匹配成功与否
-     */
     public static boolean checkCode(String secret, int code) {
         Base32 codec = new Base32();
         byte[] decodedKey = codec.decode(secret);

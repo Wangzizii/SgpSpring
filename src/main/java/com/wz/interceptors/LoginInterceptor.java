@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         try {
             JWTUtil.verifyToken(token);
-            System.out.println(JWTUtil.verifyToken(token));
+
             System.out.println("token验证成功");
             return true;
         }
